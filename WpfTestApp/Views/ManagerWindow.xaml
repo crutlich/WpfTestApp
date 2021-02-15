@@ -1,0 +1,131 @@
+﻿<Window x:Class="WpfTestApp.Views.ManagerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:local="clr-namespace:WpfTestApp"
+        xmlns:vm="clr-namespace:WpfTestApp.ViewModels"
+        mc:Ignorable="d"
+        Title="ManagerWindow" Height="461.5" Width="786.667">
+
+    <Window.DataContext>
+        <vm:ManagerViewModel />
+    </Window.DataContext>
+
+    <Grid Margin="15,10,14.6,15"  >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto"  />
+            <RowDefinition Height="auto"  />
+
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Менеджеры" 
+                   Grid.Row="0"
+                   FontSize="20"
+                   FontWeight="Bold"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Margin="3"
+                   Padding="5" Width="139" Grid.ColumnSpan="2" Height="40" />
+        <TextBlock Text="Имя"
+                   Grid.Row="1"
+                   Grid.Column="0"
+                   Margin="28,17.2,148.4,61.4"
+                   Padding="3" />
+        <TextBox Name="txtName"
+                 Grid.Row="1"
+                 Grid.Column="0"
+                 Margin="96,17.2,124.4,63.4"
+                 Padding="3"
+                 Text="{Binding Path=CurrentManager.Name_manag, Mode=TwoWay}"   />
+
+        <StackPanel Orientation="Horizontal"
+                    Grid.Row="1"
+                    Grid.Column="0" Margin="10,55,36.2,9.6">
+            <Button x:Name="btnAdd"
+                    Content="Добавить"
+                    Margin="5,8,5,7.8"
+                    Padding="3"
+                    Command="{Binding SaveManCommand}" />
+            <Button x:Name="btnUpdate"
+                    Content="Изменить"
+                    Margin="5,8"
+                    Padding="3"
+                    Command="{Binding UpdateManCommand}" />
+            <Button x:Name="btnDelete"
+                    Content="Удалить"
+                    Margin="5,8"
+                    Padding="3"
+                    Command="{Binding DeleteManCommand}" />
+            <Button x:Name="btnShow"
+                    Content="Клиенты"
+                    Margin="5,8"
+                    Padding="3"
+                    Command="{Binding ShowClientsCommand}" />
+        </StackPanel>
+        <TextBlock Name="txtBlockMessage"
+                   Grid.Row="1"
+                   Grid.Column="1"
+                   Margin="7.6,10.2,0.4,72.4"
+                   Padding="3"
+                   Text="{Binding Path=Message}" />
+
+        <DataGrid Name="dgManagers"
+                  IsReadOnly="True"
+                  AutoGenerateColumns="False"
+                  Grid.Row="2"
+                  Margin="0,0.8,53.4,-149"
+                  Padding="3"
+                  ItemsSource="{Binding Path=ManagerList, Mode=TwoWay}"
+                  SelectedItem="{Binding Path=CurrentManager, Mode=TwoWay}"
+                  >
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Id"
+                                    Width="*"
+                                    Binding="{Binding Path=Id_manager}" />
+                <DataGridTextColumn Header="Имя"
+                                    Width="*"
+                                    Binding="{Binding Path=Name_manag}" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+
+        <DataGrid Name="dgClientByMan"
+                  IsReadOnly="True"
+                  AutoGenerateColumns="False"
+                  Grid.Row="4"
+                  Margin="382,1,9.8,-149.2"
+                  Padding="3"
+                  ItemsSource="{Binding Path=ClientsOfManager, Mode=TwoWay}" Grid.ColumnSpan="2" >
+
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Id"
+                                    Width="1*"
+                                    Binding="{Binding Path=Id_cl}" />
+
+                <DataGridTextColumn Header="Тип"
+                                    Width="2*"
+                                    Binding="{Binding Path=Type_cl}" />
+
+                <DataGridTextColumn Header="Имя"
+                                    Width="4*"
+                                    Binding="{Binding Path=Name_cl}" />
+
+                <DataGridTextColumn Header="Статус"
+                                    Width="2*"
+                                    Binding="{Binding Path = Client_status.Status_cl}" />
+
+            </DataGrid.Columns>
+        </DataGrid>
+
+
+    </Grid>
+</Window>

@@ -1,0 +1,356 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище SoftTradePlusDBModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="Id_cl" />
+          </Key>
+          <Property Name="Id_cl" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Type_cl" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="Name_cl" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="Status_cl" Type="int" Nullable="false" />
+          <Property Name="Manager" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Client_status">
+          <Key>
+            <PropertyRef Name="Id_status" />
+          </Key>
+          <Property Name="Id_status" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Status_cl" Type="nvarchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ClientsProducts">
+          <Key>
+            <PropertyRef Name="Id_clpr" />
+          </Key>
+          <Property Name="Id_clpr" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Client" Type="int" Nullable="false" />
+          <Property Name="Product" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Manager">
+          <Key>
+            <PropertyRef Name="Id_manager" />
+          </Key>
+          <Property Name="Id_manager" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name_manag" Type="nvarchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="Id_prod" />
+          </Key>
+          <Property Name="Id_prod" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name_prod" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Price" Type="numeric" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="Type_prod" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="TimeLimit" Type="nvarchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <Association Name="FK__Client__Manager__5BE2A6F2">
+          <End Role="Manager" Type="Self.Manager" Multiplicity="1" />
+          <End Role="Client" Type="Self.Client" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Manager">
+              <PropertyRef Name="Id_manager" />
+            </Principal>
+            <Dependent Role="Client">
+              <PropertyRef Name="Manager" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Client__Status_c__5AEE82B9">
+          <End Role="Client_status" Type="Self.Client_status" Multiplicity="1" />
+          <End Role="Client" Type="Self.Client" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client_status">
+              <PropertyRef Name="Id_status" />
+            </Principal>
+            <Dependent Role="Client">
+              <PropertyRef Name="Status_cl" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ClientsPr__Clien__5EBF139D">
+          <End Role="Client" Type="Self.Client" Multiplicity="1" />
+          <End Role="ClientsProducts" Type="Self.ClientsProducts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="Id_cl" />
+            </Principal>
+            <Dependent Role="ClientsProducts">
+              <PropertyRef Name="Client" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ClientsPr__Produ__5FB337D6">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="ClientsProducts" Type="Self.ClientsProducts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id_prod" />
+            </Principal>
+            <Dependent Role="ClientsProducts">
+              <PropertyRef Name="Product" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище SoftTradePlusDBModelContainer">
+          <EntitySet Name="Client" EntityType="Self.Client" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Client_status" EntityType="Self.Client_status" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ClientsProducts" EntityType="Self.ClientsProducts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Manager" EntityType="Self.Manager" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Client__Manager__5BE2A6F2" Association="Self.FK__Client__Manager__5BE2A6F2">
+            <End Role="Manager" EntitySet="Manager" />
+            <End Role="Client" EntitySet="Client" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Client__Status_c__5AEE82B9" Association="Self.FK__Client__Status_c__5AEE82B9">
+            <End Role="Client_status" EntitySet="Client_status" />
+            <End Role="Client" EntitySet="Client" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ClientsPr__Clien__5EBF139D" Association="Self.FK__ClientsPr__Clien__5EBF139D">
+            <End Role="Client" EntitySet="Client" />
+            <End Role="ClientsProducts" EntitySet="ClientsProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ClientsPr__Produ__5FB337D6" Association="Self.FK__ClientsPr__Produ__5FB337D6">
+            <End Role="Product" EntitySet="Product" />
+            <End Role="ClientsProducts" EntitySet="ClientsProducts" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SoftTradePlusDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="Id_cl" />
+          </Key>
+          <Property Name="Id_cl" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type_cl" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name_cl" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Status_cl" Type="Int32" Nullable="false" />
+          <Property Name="Manager" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Manager1" Relationship="Self.FK__Client__Manager__5BE2A6F2" FromRole="Client" ToRole="Manager" />
+          <NavigationProperty Name="Client_status" Relationship="Self.FK__Client__Status_c__5AEE82B9" FromRole="Client" ToRole="Client_status" />
+          <NavigationProperty Name="ClientsProducts" Relationship="Self.FK__ClientsPr__Clien__5EBF139D" FromRole="Client" ToRole="ClientsProducts" />
+        </EntityType>
+        <EntityType Name="Client_status">
+          <Key>
+            <PropertyRef Name="Id_status" />
+          </Key>
+          <Property Name="Id_status" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Status_cl" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Clients" Relationship="Self.FK__Client__Status_c__5AEE82B9" FromRole="Client_status" ToRole="Client" />
+        </EntityType>
+        <EntityType Name="ClientsProduct">
+          <Key>
+            <PropertyRef Name="Id_clpr" />
+          </Key>
+          <Property Name="Id_clpr" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Client" Type="Int32" Nullable="false" />
+          <Property Name="Product" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Client1" Relationship="Self.FK__ClientsPr__Clien__5EBF139D" FromRole="ClientsProducts" ToRole="Client" />
+          <NavigationProperty Name="Product1" Relationship="Self.FK__ClientsPr__Produ__5FB337D6" FromRole="ClientsProducts" ToRole="Product" />
+        </EntityType>
+        <EntityType Name="Manager">
+          <Key>
+            <PropertyRef Name="Id_manager" />
+          </Key>
+          <Property Name="Id_manager" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name_manag" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Clients" Relationship="Self.FK__Client__Manager__5BE2A6F2" FromRole="Manager" ToRole="Client" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="Id_prod" />
+          </Key>
+          <Property Name="Id_prod" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name_prod" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Price" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="Type_prod" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TimeLimit" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ClientsProducts" Relationship="Self.FK__ClientsPr__Produ__5FB337D6" FromRole="Product" ToRole="ClientsProducts" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <Association Name="FK__Client__Manager__5BE2A6F2">
+          <End Role="Manager" Type="Self.Manager" Multiplicity="1" />
+          <End Role="Client" Type="Self.Client" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Manager">
+              <PropertyRef Name="Id_manager" />
+            </Principal>
+            <Dependent Role="Client">
+              <PropertyRef Name="Manager" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Client__Status_c__5AEE82B9">
+          <End Role="Client_status" Type="Self.Client_status" Multiplicity="1" />
+          <End Role="Client" Type="Self.Client" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client_status">
+              <PropertyRef Name="Id_status" />
+            </Principal>
+            <Dependent Role="Client">
+              <PropertyRef Name="Status_cl" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ClientsPr__Clien__5EBF139D">
+          <End Role="Client" Type="Self.Client" Multiplicity="1" />
+          <End Role="ClientsProducts" Type="Self.ClientsProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="Id_cl" />
+            </Principal>
+            <Dependent Role="ClientsProducts">
+              <PropertyRef Name="Client" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ClientsPr__Produ__5FB337D6">
+          <End Role="Product" Type="Self.Product" Multiplicity="1" />
+          <End Role="ClientsProducts" Type="Self.ClientsProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product">
+              <PropertyRef Name="Id_prod" />
+            </Principal>
+            <Dependent Role="ClientsProducts">
+              <PropertyRef Name="Product" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SoftTradePlusDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Clients" EntityType="Self.Client" />
+          <EntitySet Name="Client_status" EntityType="Self.Client_status" />
+          <EntitySet Name="ClientsProducts" EntityType="Self.ClientsProduct" />
+          <EntitySet Name="Managers" EntityType="Self.Manager" />
+          <EntitySet Name="Products" EntityType="Self.Product" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <AssociationSet Name="FK__Client__Manager__5BE2A6F2" Association="Self.FK__Client__Manager__5BE2A6F2">
+            <End Role="Manager" EntitySet="Managers" />
+            <End Role="Client" EntitySet="Clients" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Client__Status_c__5AEE82B9" Association="Self.FK__Client__Status_c__5AEE82B9">
+            <End Role="Client_status" EntitySet="Client_status" />
+            <End Role="Client" EntitySet="Clients" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ClientsPr__Clien__5EBF139D" Association="Self.FK__ClientsPr__Clien__5EBF139D">
+            <End Role="Client" EntitySet="Clients" />
+            <End Role="ClientsProducts" EntitySet="ClientsProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ClientsPr__Produ__5FB337D6" Association="Self.FK__ClientsPr__Produ__5FB337D6">
+            <End Role="Product" EntitySet="Products" />
+            <End Role="ClientsProducts" EntitySet="ClientsProducts" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище SoftTradePlusDBModelContainer" CdmEntityContainer="SoftTradePlusDBEntities">
+          <EntitySetMapping Name="Clients">
+            <EntityTypeMapping TypeName="SoftTradePlusDBModel.Client">
+              <MappingFragment StoreEntitySet="Client">
+                <ScalarProperty Name="Id_cl" ColumnName="Id_cl" />
+                <ScalarProperty Name="Type_cl" ColumnName="Type_cl" />
+                <ScalarProperty Name="Name_cl" ColumnName="Name_cl" />
+                <ScalarProperty Name="Status_cl" ColumnName="Status_cl" />
+                <ScalarProperty Name="Manager" ColumnName="Manager" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Client_status">
+            <EntityTypeMapping TypeName="SoftTradePlusDBModel.Client_status">
+              <MappingFragment StoreEntitySet="Client_status">
+                <ScalarProperty Name="Id_status" ColumnName="Id_status" />
+                <ScalarProperty Name="Status_cl" ColumnName="Status_cl" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ClientsProducts">
+            <EntityTypeMapping TypeName="SoftTradePlusDBModel.ClientsProduct">
+              <MappingFragment StoreEntitySet="ClientsProducts">
+                <ScalarProperty Name="Id_clpr" ColumnName="Id_clpr" />
+                <ScalarProperty Name="Client" ColumnName="Client" />
+                <ScalarProperty Name="Product" ColumnName="Product" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Managers">
+            <EntityTypeMapping TypeName="SoftTradePlusDBModel.Manager">
+              <MappingFragment StoreEntitySet="Manager">
+                <ScalarProperty Name="Id_manager" ColumnName="Id_manager" />
+                <ScalarProperty Name="Name_manag" ColumnName="Name_manag" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Products">
+            <EntityTypeMapping TypeName="SoftTradePlusDBModel.Product">
+              <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="Id_prod" ColumnName="Id_prod" />
+                <ScalarProperty Name="Name_prod" ColumnName="Name_prod" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Type_prod" ColumnName="Type_prod" />
+                <ScalarProperty Name="TimeLimit" ColumnName="TimeLimit" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="SoftTradePlusDBModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
